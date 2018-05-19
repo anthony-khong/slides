@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/simple.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/solarized.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal"> <div class="slides">
+            <section id="title_page">
+                <h2><span style="color:slateblue">Introduction to Bayesian Statistics and Computations</span></h2>
+                <h4>Anthony Khong</h4>
+                <h4>23 May 2018</h4>
+            </section>
+
+            <section id="contents_page">
+                <ul>
+                    <li>Bayesian Statistics</li>
+                    <ul>
+                        <li>What is Probability?</li>
+                        <li>Inference using Bayes Theorem</li>
+                        <li>Statistical Decision Theory</li>
+                    </ul>
+                    <li>Bayesian Computations</li>
+                    <ul>
+                        <li>Analytical Solutions</li>
+                        <li>Simulation Methods</li>
+                        <li>Variational Methods</li>
+                        <li>Approximate Bayesian Computations</li>
+                    </ul>
+                </ul>
+            </section>
+
+            <section id="bayesian_statistics">
+                <section>
+                    <h2><span style="color:slateblue">Bayesian Statitics</span></h2>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">What is Probability?</span></h3>
+                </section>
+                <section>
+                    <p>Suppose I'm going to flip a coin.</p>
+                    <p>What is $\mathbb{P}(H)$?</p>
+                </section>
+                <section>
+                    <p>Suppose I've flipped a coin.</p>
+                    <p>What is $\mathbb{P}(H)$?</p>
+                </section>
+                <section>
+                    <p>What is $\mathbb{P}$?</p>
+                    <p class="fragment fade-up">Frequentist: limiting relative frequency of an event.</p>
+                    <p class="fragment fade-up">Bayesian: degree of belief of an event.</p>
+                </section>
+                <section>
+                    <h2><span style="color:slateblue">Inference using Bayes Theorem</span></h2>
+                </section>
+                <section>
+                    <p></p>
+                    $$y_i \sim \mathcal{N}(\mu, \sigma^2)$$
+                    <p></p>
+                    <p>How do we <b>infer</b> $(\mu, \sigma^2)$ from $\{y_i\}_{i=1}^N$?</p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Frequentist Solution</span></h3>
+                    <p></p>
+                    $$\hat{\mu} = \dfrac{1}{N}\sum_i Y_i$$
+                    $$\hat{\sigma}^2 = \dfrac{1}{N}\sum_i (Y_i - \hat{\mu})^2$$
+                    <section class="fragment current-visible">
+                        <p>Big Idea:</p>
+                        <p>Find <b>estimators</b> whose sampling distributions are lose to the unknown true parameters.</p>
+                    </section>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Bayesian Solution</span></h3>
+                    <p></p>
+                    $$
+                    \pi(\mu, \sigma^2 | \boldsymbol y
+                        = \dfrac{p(\boldsymbol y | \mu, \sigma^2) \pi(\mu, \sigma^2)}{p(\boldsymbol y)}
+                    $$
+                    <section class="fragment fade-up">
+                        <p>Big Idea:</p>
+                        <p>Formulate a <b>posterior belief</b> of the unknown parameters by combining our prior beliefs with our data.</p>
+                    </section>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">The Bayesian Recipe</span></h3>
+                    <!--TODO: justify left-->
+                    <p class="fragment current-visible">
+                        $\boldsymbol\theta$: Parameter of Interest
+                    </p>
+                    <p class="fragment current-visible">
+                        $\mathcal{D}$: Data
+                    </p>
+                    <p class="fragment current-visible">
+                        $\pi(\boldsymbol \theta)$: Prior
+                    </p>
+                    <p class="fragment current-visible">
+                        $\p(\mathcal{D} | \boldsymbol \theta)$: Likelihood
+                    </p>
+                    <p class="fragment current-visible">
+                        $\pi(\boldsymbol \theta | \mathcal{D})$: Posterior
+                    </p>
+                    <section class="fragment current-visible">
+                        <p>Bayes Theorem:</p>
+                        <p>$\pi(\boldsymbol \theta | \mathcal{D}) \propto p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta) </p>
+                    </section>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Statistical Decision Theory</span></h3>
+                </section>
+                <section>
+                    <p>How do you turn $\pi(\boldsymbol \theta | \mathcal{D})$ into $\hat{\theta}$?</p>
+                    <p class="fragment current-visible">
+                        It depends on $L(\tilde{\boldsymbol theta}, \boldsymbol \theta)$.
+                    </p>
+                </section>
+                <section>
+                    <!--TODO: Risk functions-->
+                    temp
+                </section>
+                <section>
+                    <h4><span style="color:slateblue">Optimal Action</span></h4>
+                    Suppose we have taken actions $\boldsymbol a$ and observed $\mathcal{D}$:
+
+                    $$
+                    \pi(\boldsymbol \theta | \mathcal{D}, \boldsymbol a)
+                    \propto \dfrac{p(\mathcal{D} | \boldsymbol \theta, \boldsymbol a) \pi(\boldsymbol \theta)}
+                    $$
+
+                    What we do next depends on $L(\mathcal{D}', a')$:
+
+                    <!--TODO: optimal action formulation-->
+                    <aside class="notes">
+                        If you're wondering why TF Probability is a big deal...
+                        It lets you think at this high level instead of the actual components of these functions.
+                        Conceptually, this is very easy. Could you imagine what you need to do in the Frequentist framework?
+                    </aside>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2><span style="color:slateblue">Bayesian Computations</span></h2>
+                </section>
+                <section>
+                    Our goal is to find:
+                    <!--TODO: general expectation and some examples-->
+                </section>
+            </section>
+
+        </div> </div>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                transition: "none",
+                history: true,
+                math: {
+                    mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+                },
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/math/math.js', async: true }
+                ]
+            });
+        </script>
+    </body>
+</html>
