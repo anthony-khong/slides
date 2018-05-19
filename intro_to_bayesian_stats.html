@@ -30,11 +30,11 @@
             </section>
 
             <section id="contents_page">
-                <ul>
+                <ol>
                     <li>Bayesian Statistics</li>
                     <ul>
-                        <li>What is Probability?</li>
-                        <li>Inference using Bayes Theorem</li>
+                        <li>Definition of Probability</li>
+                        <li>Bayesian Inference</li>
                         <li>Statistical Decision Theory</li>
                     </ul>
                     <li>Bayesian Computations</li>
@@ -44,31 +44,31 @@
                         <li>Variational Methods</li>
                         <li>Approximate Bayesian Computations</li>
                     </ul>
-                </ul>
+                </ol>
             </section>
 
             <section id="bayesian_statistics">
                 <section>
-                    <h2><span style="color:slateblue">Bayesian Statitics</span></h2>
+                    <h2><span style="color:slateblue">1. Bayesian Statitics</span></h2>
                 </section>
                 <section>
-                    <h3><span style="color:slateblue">What is Probability?</span></h3>
+                    <h3><span style="color:slateblue">1.1 Definition of Probability</span></h3>
                 </section>
                 <section>
                     <p>Suppose I'm going to flip a coin.</p>
-                    <p>What is $\mathbb{P}(H)$?</p>
+                    <p>What is $\mathbb{P}(Head)$?</p>
                 </section>
                 <section>
                     <p>Suppose I've flipped a coin.</p>
-                    <p>What is $\mathbb{P}(H)$?</p>
+                    <p>What is $\mathbb{P}(Head)$?</p>
                 </section>
                 <section>
-                    <p>What is $\mathbb{P}$?</p>
+                    <p>What is probability?</p>
                     <p class="fragment fade-up">Frequentist: limiting relative frequency of an event.</p>
                     <p class="fragment fade-up">Bayesian: degree of belief of an event.</p>
                 </section>
                 <section>
-                    <h2><span style="color:slateblue">Inference using Bayes Theorem</span></h2>
+                    <h3><span style="color:slateblue">1.2 Bayesian Inference</span></h3>
                 </section>
                 <section>
                     <p></p>
@@ -79,73 +79,111 @@
                 <section>
                     <h3><span style="color:slateblue">Frequentist Solution</span></h3>
                     <p></p>
-                    $$\hat{\mu} = \dfrac{1}{N}\sum_i Y_i$$
-                    $$\hat{\sigma}^2 = \dfrac{1}{N}\sum_i (Y_i - \hat{\mu})^2$$
-                    <section class="fragment current-visible">
-                        <p>Big Idea:</p>
-                        <p>Find <b>estimators</b> whose sampling distributions are lose to the unknown true parameters.</p>
-                    </section>
+                    $$
+                    \hat{\mu} = \dfrac{1}{N}\sum_i Y_i \quad
+                    \hat{\sigma}^2 = \dfrac{1}{N}\sum_i (Y_i - \hat{\mu})^2
+                    $$
+                    <p class="fragment fade-up">
+                        Find <b>estimators</b> whose sampling distributions are lose to the unknown true parameters.
+                    </p>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Bayesian Solution</span></h3>
                     <p></p>
                     $$
-                    \pi(\mu, \sigma^2 | \boldsymbol y
+                    \pi(\mu, \sigma^2 | \boldsymbol y)
                         = \dfrac{p(\boldsymbol y | \mu, \sigma^2) \pi(\mu, \sigma^2)}{p(\boldsymbol y)}
                     $$
-                    <section class="fragment fade-up">
-                        <p>Big Idea:</p>
-                        <p>Formulate a <b>posterior belief</b> of the unknown parameters by combining our prior beliefs with our data.</p>
-                    </section>
+                    <p class="fragment fade-up">
+                        Formulate a <b>posterior belief</b> of the unknown parameters by combining prior beliefs and data.
+                    </p>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">The Bayesian Recipe</span></h3>
-                    <!--TODO: justify left-->
-                    <p class="fragment current-visible">
-                        $\boldsymbol\theta$: Parameter of Interest
+                    <p class="fragment fade-up">
+                        Parameters of Interest with Prior:
+                        $$\boldsymbol\theta \sim \pi(\boldsymbol \theta)$$
                     </p>
-                    <p class="fragment current-visible">
-                        $\mathcal{D}$: Data
+                    <p class="fragment fade-up">
+                        Observed Data with Likelihood:
+                        $$ \mathcal{D} | \boldsymbol \theta \sim p(\mathcal{D} | \boldsymbol \theta)$$
                     </p>
-                    <p class="fragment current-visible">
-                        $\pi(\boldsymbol \theta)$: Prior
-                    </p>
-                    <p class="fragment current-visible">
-                        $\p(\mathcal{D} | \boldsymbol \theta)$: Likelihood
-                    </p>
-                    <p class="fragment current-visible">
-                        $\pi(\boldsymbol \theta | \mathcal{D})$: Posterior
-                    </p>
-                    <section class="fragment current-visible">
-                        <p>Bayes Theorem:</p>
-                        <p>$\pi(\boldsymbol \theta | \mathcal{D}) \propto p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta) </p>
-                    </section>
-                </section>
-                <section>
-                    <h3><span style="color:slateblue">Statistical Decision Theory</span></h3>
-                </section>
-                <section>
-                    <p>How do you turn $\pi(\boldsymbol \theta | \mathcal{D})$ into $\hat{\theta}$?</p>
-                    <p class="fragment current-visible">
-                        It depends on $L(\tilde{\boldsymbol theta}, \boldsymbol \theta)$.
+                    <p class="fragment fade-up">
+                        Posterior distribution by Bayes Theorem:
+                        $$\pi(\boldsymbol \theta | \mathcal{D}) \propto p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta)$$
                     </p>
                 </section>
                 <section>
-                    <!--TODO: Risk functions-->
-                    temp
+                    <h3><span style="color:slateblue">1.3 Statistical Decision Theory</span></h3>
                 </section>
                 <section>
-                    <h4><span style="color:slateblue">Optimal Action</span></h4>
-                    Suppose we have taken actions $\boldsymbol a$ and observed $\mathcal{D}$:
-
+                    <p>How do you turn $\pi(\boldsymbol \theta | \mathcal{D})$ into $\hat{\theta}$ ?</p>
+                    <p></p>
+                    <p class="fragment fade-up">
+                        $$
+                        \mathbb{E}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
+                            = \int_{\boldsymbol\theta} L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
+                              \pi(\boldsymbol \theta | \mathcal{D}) d\boldsymbol\theta
+                        $$
+                    </p>
+                    <p></p>
+                    <p class="fragment fade-up">
+                        $$
+                        \hat{\boldsymbol \theta}
+                            = \arg \min_{\tilde{\boldsymbol \theta}}
+                            \mathbb{E}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
+                        $$
+                    </p>
+                </section>
+                <section>
+                    <p class="fragment fade-up">
+                        $$
+                        L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
+                        = \sum_{j=1}^{J}(\theta_j - \tilde{\theta}_j)^2
+                        \,\Rightarrow\, \hat{\boldsymbol \theta}
+                        = mean_{\boldsymbol\theta | \mathcal{D}} (\boldsymbol\theta)
+                        $$
+                    </p>
+                    <p class="fragment fade-up">
+                        $$
+                        L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
+                        = \sum_{j=1}^{J}|\boldsymbol\theta_j - \tilde{\boldsymbol \theta}_j|
+                        \,\Rightarrow\, \hat{\boldsymbol \theta}
+                        = median_{\boldsymbol\theta | \mathcal{D}} (\boldsymbol\theta)
+                        $$
+                    </p>
+                    <p class="fragment fade-up">
+                        $$
+                        L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
+                        = \mathbb{1}(\boldsymbol\theta = \tilde{\boldsymbol\theta})
+                        \,\Rightarrow\, \hat{\boldsymbol \theta}
+                        = mode_{\boldsymbol\theta | \mathcal{D}} (\boldsymbol\theta)
+                        $$
+                    </p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Optimal Action</span></h3>
+                    <p> Suppose we have historical data and actions $(\mathcal{D}, \boldsymbol a)$:</p>
                     $$
                     \pi(\boldsymbol \theta | \mathcal{D}, \boldsymbol a)
-                    \propto \dfrac{p(\mathcal{D} | \boldsymbol \theta, \boldsymbol a) \pi(\boldsymbol \theta)}
+                    \propto p(\mathcal{D} | \boldsymbol\theta, \boldsymbol a) \pi(\boldsymbol \theta)
                     $$
-
-                    What we do next depends on $L(\mathcal{D}', a')$:
-
-                    <!--TODO: optimal action formulation-->
+                    <p>How should we pick the next action $a'$?</p>
+                    <p class="fragment fade-up">
+                    <small>
+                        $$
+                        \mathbb{E}\Big(L(\mathcal{D}', a')\Big)
+                        = \int_{\mathcal{D}'} \int_{\boldsymbol\theta}
+                        L(\mathcal{D}', a') p(\mathcal{D}' | \boldsymbol \theta, a')
+                        \pi(\boldsymbol \theta | \mathcal{D}, \boldsymbol a) d\boldsymbol\theta d\mathcal{D}'
+                        $$
+                    </small>
+                    <p class="fragment fade-up">
+                        $$
+                        a'^* = \arg \min_{a'} \mathbb{E}\Big(L(\mathcal{D}', a')\Big)
+                        $$
+                    </p>
+                    </p>
                     <aside class="notes">
                         If you're wondering why TF Probability is a big deal...
                         It lets you think at this high level instead of the actual components of these functions.
@@ -156,7 +194,7 @@
 
             <section>
                 <section>
-                    <h2><span style="color:slateblue">Bayesian Computations</span></h2>
+                    <h2><span style="color:slateblue">2. Bayesian Computations</span></h2>
                 </section>
                 <section>
                     Our goal is to find:
