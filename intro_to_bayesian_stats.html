@@ -219,11 +219,26 @@
                     \mathbb{E}_{\boldsymbol\theta | \mathcal{D}}\Big(\phi(\boldsymbol\theta)\Big)
                     = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta
                     $$
+
+                    <p class="fragment fade-up">
+                    $$
+                    \pi(\boldsymbol \theta | \mathcal{D})
+                    = \dfrac{p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta)}{p(\mathcal{D})}
+                    = \dfrac{p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta)}{\int_{\boldsymbol\theta}p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta) d\boldsymbol\theta}
+                    $$
+                    </p>
+
+                    <p class="fragment fade-up">
+                    $$ \tilde{\pi}(\boldsymbol \theta | \mathcal{D}) = p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta) $$
+                    </p>
+
                 </section>
                 <section>
                     <h3><span style="color:slateblue">2.1 Analytical Solutions</span></h3>
                 </section>
                 <section>
+                    <h3><span style="color:slateblue">Conjugate Prior for Univariate Gaussian</span></h3>
+
                     <p>$$Y_i | \mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$$</p>
 
                     <p class="fragment fade-up">
@@ -238,7 +253,7 @@
                     </p>
 
                     <p class="fragment fade-up">
-                        TODO
+                    $$\sigma^{-2} | \mathcal{D} \sim \mathcal{G}(\cdots, \cdots) \quad \mu | \sigma^2, \mathcal{D} \sim \mathcal{N}(\cdots, \cdots)$$
                     </p>
                 </section>
                 <section>
@@ -250,7 +265,7 @@
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Monte Carlo Integration</span></h3>
-                    $$\mathbb{E}(\phi) = \int_{\boldsymbol\theta} f(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta$$
+                    $$\mathbb{E}(\phi) = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta$$
                     <p>Suppose we have a sample $\{\boldsymbol\theta_m\}_{m=1}^M$ from $\pi(\boldsymbol\theta | \mathcal{D})$:</p>
 
                     <p class="fragment fade-up">
@@ -275,14 +290,73 @@
                 <section>
                     <h3><span style="color:slateblue">Rejection Sampling</span></h3>
 
-                    <p>Suppose we have $q(\boldsymbol\theta)$ and $C \in \mathbb{R}^+$ where</p>
-                    $$\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)} \leq 1 \quad \, \forall \boldsymbol\theta$$
+                    <p>
+                    Require: $q(\boldsymbol\theta)$ and $C \in \mathbb{R}^+$ where
+                    $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)} \leq 1 \, \forall \boldsymbol\theta$
+                    </p>
 
                     <p></p>
                     <ol class="fragment fade-up">
                         <li>Draw $\boldsymbol\theta \sim q$</li>
-                        <li>Accept $\boldsymbol\theta$ w.p. $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)}$</li>
+                        <li>Accept $\,\boldsymbol\theta\,$ w.p. $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)}$</li>
                     </ol>
+
+                    <aside class="notes">
+                        There's the normalised version of this if you don't know the normalising constant.
+                    </aside>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Importance Sampling</span></h3>
+                    <p>
+                    Require:
+                    $q(\boldsymbol\theta)$ where $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{q(\boldsymbol\theta)} &lt; \infty \, \forall \boldsymbol\theta$
+                    </p>
+
+                    <p class="fragment fade-up">
+                    $$
+                    \mathbb{E}(\phi)
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta)
+                    \dfrac{\pi(\boldsymbol \theta | \mathcal{D})}{q(\boldsymbol \theta)} q(\boldsymbol \theta)
+                    d \boldsymbol\theta
+                    $$
+                    </p>
+
+                    <p class="fragment fade-up">
+                    $$
+                    \hat{\phi} = \sum_{m=1}^M w(\boldsymbol\theta_m) \phi(\boldsymbol \theta_m)
+                    \quad
+                    w(\boldsymbol\theta) = \dfrac{\pi(\boldsymbol \theta | \mathcal{D})}{q(\boldsymbol \theta)}
+                    $$
+                    </p>
+
+                    <aside class="notes">
+                        There's the normalised version of this if you don't know the normalising constant.
+                    </aside>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Markov Chain Monte Carlo</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Chain Mixing</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Complexity of MCMC</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">2.3 Variational Methods</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Variational Inference</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Complexity of VI</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Expectation Propagation</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">2.4 Approximate Bayesian Computations</span></h3>
                 </section>
             </section>
 
