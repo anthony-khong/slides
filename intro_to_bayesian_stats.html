@@ -280,6 +280,7 @@
                     <p class="fragment fade-up">
                     <b>LLN:</b> if $\mathbb{E}(\phi)$ and $\mathbb{V}(\phi)$ are both finite, then
                     </p>
+
                     <p class="fragment fade-up">
                     $$
                     \sqrt{\dfrac{M}{\mathbb{V}(\phi)}}\Big(\hat{\phi} - \mathbb{E}(\phi)\Big)
@@ -336,12 +337,71 @@
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Markov Chain Monte Carlo</span></h3>
+
+                    <p>
+                    Require: $K(\boldsymbol\theta, \boldsymbol\theta')$ where
+                    $
+                    \int_{\boldsymbol\theta} K(\boldsymbol\theta, \boldsymbol\theta') d\boldsymbol\theta
+                    = \pi(\boldsymbol\theta' | \mathcal{D})
+                    $
+                    </p>
+
+                    <p></p>
+                    <ol class="fragment fade-up">
+                        <li>Initialise $\boldsymbol\theta_0$</li>
+                        <li>
+                            For $m = 1, \cdots, M$
+                            $$\boldsymbol\theta_{m} | \boldsymbol\theta_{m-1}\sim K(\boldsymbol\theta_{m-1}, \cdot)$$
+                        </li>
+                    </ol>
+
+                    <p class="fragment fade-up">
+                    <b>Ergodic Theorem:</b> if $K$ satisfies regularity conditions
+
+                    $$
+                    \lim_{M \rightarrow \infty} \sum_{i=1}^M \phi(\boldsymbol\theta_m)
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol\theta) \pi(\boldsymbol\theta | \mathcal{D}) d\boldsymbol\theta
+                    $$
+                    </p>
                 </section>
                 <section>
-                    <h3><span style="color:slateblue">Chain Mixing</span></h3>
+                    <h3><span style="color:slateblue">Metropolis-Hastings Algorithm</span></h3>
+
+                    <p>
+                    Require: $q(\boldsymbol\theta' | \boldsymbol\theta)$ with reguarity conditions.
+                    </p>
+
+                    <p></p>
+                    <ol class="fragment fade-up">
+                        <li>$\boldsymbol\theta' \sim q(\cdot | \boldsymbol\theta_{m-1})$</li>
+                        <li>
+                            Accept $\,\boldsymbol\theta'\,$ w.p.
+                            $
+                            \, min \Big( \dfrac{\pi(\boldsymbol\theta' | \mathcal{D}) q(\boldsymbol\theta_{m-1} | \boldsymbol\theta')}{\pi(\boldsymbol\theta_{m-1} | \mathcal{D}) q(\boldsymbol\theta' | \boldsymbol\theta_{m-1})}, 1 \Big)
+                            $
+                        </li>
+                        <li>If accept $\boldsymbol\theta_m = \boldsymbol\theta'$, otherwise $\boldsymbol\theta_m = \boldsymbol\theta_{m-1}$</li>
+                    </ol>
+
+                    <p></p>
+
+                    <p class="fragment fade-up">
+                    For example:
+                    $
+                    \quad
+                    \boldsymbol\theta' = \boldsymbol\theta_{m-1} + \boldsymbol\varepsilon
+                    \quad \boldsymbol\varepsilon \sim \mathcal{N}(0, \sigma^2 I)
+                    $
+                    </p>
                 </section>
                 <section>
-                    <h3><span style="color:slateblue">Complexity of MCMC</span></h3>
+                    What is a good choice of $q(\cdot | \boldsymbol\theta_{m-1})$?
+
+                    <p class="fragment fade-up">
+                    $$
+                    \mathbb{V}(\hat{\phi}) = \dfrac{1}{\sqrt{M}} \Big( \dfrac{\sigma_{\phi}^2}{1 - \rho^2}\dfrac{1 + \rho}{1 - \rho} \Big)
+                    $$
+                    </p>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">2.3 Variational Methods</span></h3>
@@ -350,13 +410,10 @@
                     <h3><span style="color:slateblue">Variational Inference</span></h3>
                 </section>
                 <section>
-                    <h3><span style="color:slateblue">Complexity of VI</span></h3>
-                </section>
-                <section>
                     <h3><span style="color:slateblue">Expectation Propagation</span></h3>
                 </section>
                 <section>
-                    <h3><span style="color:slateblue">2.4 Approximate Bayesian Computations</span></h3>
+                    <h3><span style="color:slateblue">2.4 Approx. Bayesian Computations</span></h3>
                 </section>
             </section>
 
