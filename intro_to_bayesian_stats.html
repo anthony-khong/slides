@@ -72,9 +72,12 @@
                 </section>
                 <section>
                     <p></p>
-                    $$y_i \sim \mathcal{N}(\mu, \sigma^2)$$
+                    $$Y_i \sim \mathcal{N}(\mu, \sigma^2)$$
                     <p></p>
                     <p>How do we <b>infer</b> $(\mu, \sigma^2)$ from $\{y_i\}_{i=1}^N$?</p>
+                    <aside class="notes">
+                        Notation: capital letters for the random variables and small letters for their realisations.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Frequentist Solution</span></h3>
@@ -84,8 +87,13 @@
                     \hat{\sigma}^2 = \dfrac{1}{N}\sum_i (Y_i - \hat{\mu})^2
                     $$
                     <p class="fragment fade-up">
-                        Find <b>estimators</b> whose sampling distributions are lose to the unknown true parameters.
+                        Find <b>estimators</b> whose sampling distributions are close to the unknown true parameters.
                     </p>
+                    <aside class="notes">
+                        Under repeated sampling, the true value lies somewhere in a region of high density.
+
+                        The output is a random variable for each parameter, for which we have only one realisation.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Bayesian Solution</span></h3>
@@ -95,8 +103,13 @@
                         = \dfrac{p(\boldsymbol y | \mu, \sigma^2) \pi(\mu, \sigma^2)}{p(\boldsymbol y)}
                     $$
                     <p class="fragment fade-up">
-                        Formulate a <b>posterior belief</b> of the unknown parameters by combining prior beliefs and data.
+                        Formulate a <b>posterior belief</b> of the unknown parameters by refining prior beliefs with data.
                     </p>
+                    <aside class="notes">
+                        We refine beliefs when we see more data. In some sense, this statement cannot be false.
+
+                        The output is a distribution over each parameter.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">The Bayesian Recipe</span></h3>
@@ -134,6 +147,9 @@
                             \mathbb{E}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
                         $$
                     </p>
+                    <aside class="notes">
+                        This recipe is not dependent on sample size, because we never need to invoke asymptotics.
+                    </aside>
                 </section>
                 <section>
                     <p class="fragment fade-up">
@@ -185,6 +201,8 @@
                     </p>
                     </p>
                     <aside class="notes">
+                        Often we do not care about the parameter values or choosing its value. How do we use this to pick actions?
+
                         If you're wondering why TF Probability is a big deal...
                         It lets you think at this high level instead of the actual components of these functions.
                         Conceptually, this is very easy. Could you imagine what you need to do in the Frequentist framework?
@@ -197,8 +215,74 @@
                     <h2><span style="color:slateblue">2. Bayesian Computations</span></h2>
                 </section>
                 <section>
-                    Our goal is to find:
-                    <!--TODO: general expectation and some examples-->
+                    $$
+                    \mathbb{E}_{\boldsymbol\theta | \mathcal{D}}\Big(\phi(\boldsymbol\theta)\Big)
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta
+                    $$
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">2.1 Analytical Solutions</span></h3>
+                </section>
+                <section>
+                    <p>$$Y_i | \mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$$</p>
+
+                    <p class="fragment fade-up">
+                        $$\sigma^{-2} \sim \mathcal{G}(\alpha_0, \beta_0) \quad \mu | \sigma^2 \sim \mathcal{N}(\mu_0, \lambda_0 \sigma^2)$$
+                    </p>
+
+                    <p>
+                    $$
+                    \pi(\mu, \sigma^2 | \boldsymbol y)
+                        = \dfrac{p(\boldsymbol y | \mu, \sigma^2) \pi(\mu, \sigma^2)}{p(\boldsymbol y)}
+                    $$
+                    </p>
+
+                    <p class="fragment fade-up">
+                        TODO
+                    </p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Linear Regression with Conjugate Priors</span></h3>
+                    <img data-src="figures/bayesian_linear_regression_conjugate_prior.png" width="85%">
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">2.2 Simulation Methods</span></h3>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Monte Carlo Integration</span></h3>
+                    $$\mathbb{E}(\phi) = \int_{\boldsymbol\theta} f(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta$$
+                    <p>Suppose we have a sample $\{\boldsymbol\theta_m\}_{m=1}^M$ from $\pi(\boldsymbol\theta | \mathcal{D})$:</p>
+
+                    <p class="fragment fade-up">
+                    $$
+                    \hat{\phi}
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta)
+                    \Big\{ \sum_{m=1}^M \delta_{\boldsymbol\theta_m}(\boldsymbol\theta) \Big\} d \boldsymbol\theta
+                    = \sum_{m=1}^M \phi(\boldsymbol \theta_m)
+                    $$
+                    </p>
+
+                    <p class="fragment fade-up">
+                    <b>LLN:</b> if $\mathbb{E}(\phi)$ and $\mathbb{V}(\phi)$ are both finite, then
+                    </p>
+                    <p class="fragment fade-up">
+                    $$
+                    \sqrt{\dfrac{M}{\mathbb{V}(\phi)}}\Big(\hat{\phi} - \mathbb{E}(\phi)\Big)
+                    \overset{D}{\rightarrow} \mathcal{N}(0, 1)
+                    $$
+                    </p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Rejection Sampling</span></h3>
+
+                    <p>Suppose we have $q(\boldsymbol\theta)$ and $C \in \mathbb{R}^+$ where</p>
+                    $$\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)} \leq 1 \quad \, \forall \boldsymbol\theta$$
+
+                    <p></p>
+                    <ol class="fragment fade-up">
+                        <li>Draw $\boldsymbol\theta \sim q$</li>
+                        <li>Accept $\boldsymbol\theta$ w.p. $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)}$</li>
+                    </ol>
                 </section>
             </section>
 
