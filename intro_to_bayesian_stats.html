@@ -408,6 +408,63 @@
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Variational Inference</span></h3>
+
+                    <p>
+                    Require: easy approximating distribution $q(\boldsymbol\theta | \boldsymbol\varphi)$
+                    </p>
+
+                    <p></p>
+                    <p class="fragment fade-up">
+                    $$
+                    \boldsymbol\varphi^*
+                    = \arg \min_{\boldsymbol\varphi} KL(q(\boldsymbol\theta | \boldsymbol\varphi) \,||\, \pi(\boldsymbol\theta | \mathcal{D}))
+                    $$
+                    </p>
+
+                    <p></p>
+                    <p class="fragment fade-up">
+                    $$
+                    \tilde{\phi}
+                    = \int_{\boldsymbol\theta} \phi(\boldsymbol\theta) q(\boldsymbol\theta | \boldsymbol\varphi^*) d\boldsymbol\theta
+                    \approx \int_{\boldsymbol\theta} \phi(\boldsymbol\theta) \pi(\boldsymbol\theta | \mathcal{D}) d\boldsymbol\theta
+                    $$
+                    </p>
+
+                    <p class="fragment fade-up">
+                        No consistency guarantees!
+                    </p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">KL Gradients</span></h3>
+
+                    <small>
+                    $$
+                    KL(q(\boldsymbol\theta | \boldsymbol\varphi) \,||\, \pi(\boldsymbol\theta | \mathcal{D}))
+                    = \int_{\boldsymbol\theta} \log \Big(
+                    \dfrac{q(\boldsymbol\theta | \boldsymbol\varphi)}{\pi(\boldsymbol\theta | \mathcal{D})}
+                    \Big) q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta \\
+                    $$
+                    </small>
+
+                    <p class="fragment fade-up"><small>Naïve doubly stochastic VI gradients:</small></p>
+
+                    <p class="fragment fade-up">
+                    <small>
+                    $$
+                    \begin{align}
+                    \dfrac{\partial KL}{\partial \boldsymbol\varphi}
+                    & = \int_{\boldsymbol\theta} \Big(
+                    \dfrac{\partial \log(\cdots)}{\partial\boldsymbol\varphi} + \log(\cdots) \dfrac{\partial \log q}{\partial\boldsymbol\varphi} \Big)
+                    q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta \\
+                    & \approx \dfrac{1}{M}\dfrac{N}{B}
+                    \sum_{m=1}^M \sum_{b=1}^B \dfrac{\partial \log_{m,b}(\cdots)}{\partial\boldsymbol\varphi} + \log_{m,b}(\cdots) \dfrac{\partial \log q_m}{\partial\boldsymbol\varphi}
+                    \end{align}
+                    $$
+                    </small>
+                    </p>
+                </section>
+                <section>
+                    <h3><span style="color:slateblue">Reparameterisation Trick</span></h3>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Expectation Propagation</span></h3>
