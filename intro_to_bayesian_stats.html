@@ -49,8 +49,7 @@
             <section id="bayesian_statistics">
                 <section>
                     <h2><span style="color:slateblue">1. Bayesian Statitics</span></h2>
-                </section>
-                <section>
+
                     <h3><span style="color:slateblue">1.1 Definition of Probability</span></h3>
                 </section>
                 <section>
@@ -65,13 +64,16 @@
                     <p>What is probability?</p>
                     <p class="fragment fade-up">Frequentist: limiting relative frequency of an event.</p>
                     <p class="fragment fade-up">Bayesian: degree of belief of an event.</p>
+                    <aside class="notes">
+                        In this sense, we cannot use the frequentist framework to estimate the likelihood of one-off events. For example, P(Netanyahu win next election).
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">1.2 Bayesian Inference</span></h3>
                 </section>
                 <section>
                     <p></p>
-                    $$Y_i \sim \mathcal{N}(\mu, \sigma^2)$$
+                    $$Y \sim \mathcal{N}(\mu, \sigma^2)$$
                     <p></p>
                     <p>How do we <b>infer</b> $(\mu, \sigma^2)$ from $\{y_i\}_{i=1}^N$?</p>
                     <aside class="notes">
@@ -124,6 +126,11 @@
                         Posterior distribution by Bayes Theorem:
                         $$\pi(\boldsymbol \theta | \mathcal{D}) \propto p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta)$$
                     </p>
+                    <aside class="notes">
+                        We'll see later that in most cases the denominator is not that important.
+
+                        We care about the parameters. And p(D) is only there to make the numerator sum to zero.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">1.3 Statistical Decision Theory</span></h3>
@@ -133,20 +140,19 @@
                     <p></p>
                     <p class="fragment fade-up">
                         $$
-                        \mathbb{E}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
+                        \mathbb{E}_{\boldsymbol\theta}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
                             = \int_{\boldsymbol\theta} L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
                               \pi(\boldsymbol \theta | \mathcal{D}) d\boldsymbol\theta
+                            = L(\tilde{\boldsymbol\theta})
                         $$
                     </p>
                     <p></p>
                     <p class="fragment fade-up">
-                        $$
-                        \hat{\boldsymbol \theta}
-                            = \arg \min_{\tilde{\boldsymbol \theta}}
-                            \mathbb{E}\Big(L(\boldsymbol\theta, \tilde{\boldsymbol \theta})\Big)
-                        $$
+                        $$ \hat{\boldsymbol \theta} = \arg \min_{\tilde{\boldsymbol \theta}} L(\tilde{\boldsymbol\theta}) $$
                     </p>
                     <aside class="notes">
+                        How do we go from a predictive distribution to a point prediction.
+
                         This recipe is not dependent on sample size, because we never need to invoke asymptotics.
                     </aside>
                 </section>
@@ -170,7 +176,7 @@
                     <p class="fragment fade-up">
                         $$
                         L(\boldsymbol\theta, \tilde{\boldsymbol \theta})
-                        = \mathbb{1}(\boldsymbol\theta = \tilde{\boldsymbol\theta})
+                        = -\mathbb{1}(\boldsymbol\theta = \tilde{\boldsymbol\theta})
                         \,\Rightarrow\, \hat{\boldsymbol \theta}
                         = mode_{\boldsymbol\theta | \mathcal{D}} (\boldsymbol\theta)
                         $$
@@ -187,16 +193,15 @@
                     <p class="fragment fade-up">
                     <small>
                         $$
-                        \mathbb{E}\Big(L(\mathcal{D}', a')\Big)
+                        \mathbb{E}_{\mathcal{D}'}\Big(L(\mathcal{D}', a')\Big)
                         = \int_{\mathcal{D}'} \int_{\boldsymbol\theta}
                         L(\mathcal{D}', a') p(\mathcal{D}' | \boldsymbol \theta, a')
                         \pi(\boldsymbol \theta | \mathcal{D}, \boldsymbol a) d\boldsymbol\theta d\mathcal{D}'
+                        = L(a')
                         $$
                     </small>
                     <p class="fragment fade-up">
-                        $$
-                        a'^* = \arg \min_{a'} \mathbb{E}\Big(L(\mathcal{D}', a')\Big)
-                        $$
+                        $$ a'^* = \arg \min_{a'} L(a') $$
                     </p>
                     </p>
                     <aside class="notes">
@@ -214,6 +219,8 @@
                     <h2><span style="color:slateblue">2. Bayesian Computations</span></h2>
                 </section>
                 <section>
+                    <h3><span style="color:slateblue">Main Problem of Bayesian Computation</span></h3>
+
                     $$
                     \mathbb{E}_{\boldsymbol\theta | \mathcal{D}}\Big(\phi(\boldsymbol\theta)\Big)
                     = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta) \pi(\boldsymbol \theta | \mathcal{D}) d \boldsymbol\theta
@@ -231,6 +238,11 @@
                     $$ \tilde{\pi}(\boldsymbol \theta | \mathcal{D}) = p(\mathcal{D} | \boldsymbol \theta) \pi(\boldsymbol\theta) $$
                     </p>
 
+                    <aside class="notes">
+                        Any interesting summary of the posterior distribution can be expressed with this integral.
+
+                        For the following methods, let's focus on the high-level concepts instead of the actual equations. We have TF Prob, Stan and JAGs to do all of this.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">2.1 Analytical Solutions</span></h3>
@@ -238,7 +250,7 @@
                 <section>
                     <h3><span style="color:slateblue">Conjugate Prior for Univariate Gaussian</span></h3>
 
-                    <p>$$Y_i | \mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$$</p>
+                    <p>$$Y | \mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$$</p>
 
                     <p class="fragment fade-up">
                         $$\sigma^{-2} \sim \mathcal{G}(\alpha_0, \beta_0) \quad \mu | \sigma^2 \sim \mathcal{N}(\mu_0, \lambda_0 \sigma^2)$$
@@ -254,6 +266,10 @@
                     <p class="fragment fade-up">
                     $$\sigma^{-2} | \mathcal{D} \sim \mathcal{G}(\cdots, \cdots) \quad \mu | \sigma^2, \mathcal{D} \sim \mathcal{N}(\cdots, \cdots)$$
                     </p>
+
+                    <aside class="notes">
+                        You know fully the distribution of the posterior distribution. In some sense, there isn't a computational problem.
+                    </aside>
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Linear Regression with Conjugate Priors</span></h3>
@@ -271,8 +287,8 @@
                     $$
                     \hat{\phi}
                     = \int_{\boldsymbol\theta} \phi(\boldsymbol \theta)
-                    \Big\{ \sum_{m=1}^M \delta_{\boldsymbol\theta_m}(\boldsymbol\theta) \Big\} d \boldsymbol\theta
-                    = \sum_{m=1}^M \phi(\boldsymbol \theta_m)
+                    \Big\{ \dfrac{1}{M} \sum_{m=1}^M \delta_{\boldsymbol\theta_m}(\boldsymbol\theta) \Big\} d \boldsymbol\theta
+                    = \dfrac{1}{M} \sum_{m=1}^M \phi(\boldsymbol \theta_m)
                     $$
                     </p>
 
@@ -291,7 +307,7 @@
                     <h3><span style="color:slateblue">Rejection Sampling</span></h3>
 
                     <p>
-                    Require: $q(\boldsymbol\theta)$ and $C \in \mathbb{R}^+$ where
+                    Require: $q(\boldsymbol\theta)$ and $C \in \mathbb{R}^{++}$ where
                     $\dfrac{\pi(\boldsymbol\theta | \mathcal{D})}{Cq(\boldsymbol\theta)} \leq 1 \, \forall \boldsymbol\theta$
                     </p>
 
@@ -303,6 +319,10 @@
 
                     <aside class="notes">
                         There's the normalised version of this if you don't know the normalising constant.
+                    </aside>
+
+                    <aside class="notes">
+                        We'll see a lot of proposal distributions. In many cases, a sensible choice is a normal distribution around the posterior modes.
                     </aside>
                 </section>
                 <section>
@@ -324,7 +344,7 @@
 
                     <p class="fragment fade-up">
                     $$
-                    \hat{\phi} = \sum_{m=1}^M w(\boldsymbol\theta_m) \phi(\boldsymbol \theta_m)
+                    \hat{\phi} = \sum_{m=1}^M \phi(\boldsymbol \theta_m) w(\boldsymbol\theta_m)
                     \quad
                     w(\boldsymbol\theta) = \dfrac{\pi(\boldsymbol \theta | \mathcal{D})}{q(\boldsymbol \theta)}
                     $$
@@ -425,7 +445,7 @@
                     $$
                     \tilde{\phi}
                     = \int_{\boldsymbol\theta} \phi(\boldsymbol\theta) q(\boldsymbol\theta | \boldsymbol\varphi^*) d\boldsymbol\theta
-                    \approx \int_{\boldsymbol\theta} \phi(\boldsymbol\theta) \pi(\boldsymbol\theta | \mathcal{D}) d\boldsymbol\theta
+                    \approx \mathbb{E}(\phi)
                     $$
                     </p>
 
@@ -508,7 +528,12 @@
                 <section>
                     <h3><span style="color:slateblue">Other Strategies</span></h3>
                     <ul>
-                        <li>Stochastic Gradient MCMC</li>
+                        <li>Variants of MCMC:</li>
+                        <ul>
+                            <li>Stochastic Gradient MCMC</li>
+                            <li>Particle MCMC</li>
+                            <li>Learned MCMC Kernels</li>
+                        </ul>
                         <li>Expectation Propagation</li>
                         <li>Approx. Bayesian Computations</li>
                     </ul>
