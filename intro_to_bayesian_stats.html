@@ -398,7 +398,7 @@
 
                     <p class="fragment fade-up">
                     $$
-                    \mathbb{V}(\hat{\phi}) = \dfrac{1}{\sqrt{M}} \Big( \dfrac{\sigma_{\phi}^2}{1 - \rho^2}\dfrac{1 + \rho}{1 - \rho} \Big)
+                    \mathbb{V}(\hat{\phi}) = \dfrac{1}{\sqrt{M}} \Big( \dfrac{\mathbb{V}(\phi)}{1 - \rho^2}\dfrac{1 + \rho}{1 - \rho} \Big)
                     $$
                     </p>
                 </section>
@@ -441,7 +441,8 @@
                     KL(q(\boldsymbol\theta | \boldsymbol\varphi) \,||\, \pi(\boldsymbol\theta | \mathcal{D}))
                     = \int_{\boldsymbol\theta} \log \Big(
                     \dfrac{q(\boldsymbol\theta | \boldsymbol\varphi)}{\pi(\boldsymbol\theta | \mathcal{D})}
-                    \Big) q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta \\
+                    \Big) q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta
+                    = KL(\boldsymbol\varphi)
                     $$
                     </small>
 
@@ -456,14 +457,53 @@
                     \dfrac{\partial \log(\cdots)}{\partial\boldsymbol\varphi} + \log(\cdots) \dfrac{\partial \log q}{\partial\boldsymbol\varphi} \Big)
                     q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta \\
                     & \approx \dfrac{1}{M}\dfrac{N}{B}
-                    \sum_{m=1}^M \sum_{b=1}^B \dfrac{\partial \log_{m,b}(\cdots)}{\partial\boldsymbol\varphi} + \log_{m,b}(\cdots) \dfrac{\partial \log q_m}{\partial\boldsymbol\varphi}
+                    \sum_{m=1}^M \sum_{b=1}^B \Big(
+                    \dfrac{\partial \log_{m,b}(\cdots)}{\partial\boldsymbol\varphi} + \log_{m,b}(\cdots) \dfrac{\partial \log q_m}{\partial\boldsymbol\varphi}
+                    \Big)
                     \end{align}
                     $$
                     </small>
                     </p>
+
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Reparameterisation Trick</span></h3>
+
+                    <p>
+                    Require: $\varepsilon \sim f_{\boldsymbol\varepsilon}$ and $g(\boldsymbol\varepsilon; \boldsymbol\varphi)$ such that
+                    </p>
+
+                    <p class="fragment fade-up">
+                    $$g(\boldsymbol\varepsilon;\boldsymbol\varphi) = \boldsymbol\theta \sim q(\cdot | \boldsymbol\varphi) $$
+                    </p>
+
+                    <p class="fragment fade-up">Stochastic Gradient Variational Bayes:</p>
+
+                    <p class="fragment fade-up">
+                    <small>
+                    $$
+                    KL(\boldsymbol\varphi)
+                    = \int_{\boldsymbol\theta} \log \Big(
+                    \dfrac{q(\boldsymbol\theta | \boldsymbol\varphi)}{\pi(\boldsymbol\theta | \mathcal{D})}
+                    \Big) q(\boldsymbol\theta | \boldsymbol\varphi) d\boldsymbol\theta
+                    = \int_{\boldsymbol\epsilon} \log \Big(
+                    \dfrac{q(g(\boldsymbol\varepsilon; \boldsymbol\varphi) | \boldsymbol\varphi)}{\pi(g(\boldsymbol\varepsilon; \boldsymbol\varphi) | \mathcal{D})}
+                    \Big) f_{\boldsymbol\varepsilon}(\boldsymbol\varepsilon) d\boldsymbol\varepsilon
+                    $$
+                    </small>
+                    </p>
+
+                    <p class="fragment fade-up">
+                    <small>
+                    $$
+                    \dfrac{\partial KL}{\partial \boldsymbol\varphi} \approx
+                    \sum_{m=1}^M \sum_{b=1}^B
+                    \dfrac{\partial KL_{m,b}}{\partial g_m}
+                    \dfrac{\partial g_m}{\partial \boldsymbol\varphi}
+                    $$
+                    </small>
+                    </p>
+
                 </section>
                 <section>
                     <h3><span style="color:slateblue">Other Strategies</span></h3>
